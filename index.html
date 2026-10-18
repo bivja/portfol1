@@ -1,431 +1,206 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CYBERPC — Компьютеры и комплектующие</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['"Space Grotesk"', 'sans-serif'],
-      },
-      colors: {
-        dark: '#050505',
-        surface: '#0a0a0c',
-        card: '#121216',
-        neon: '#00e5ff',
-        purple: '#7000ff',
-        gray: '#888899',
-      },
-      backgroundImage: {
-        'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)",
-      }
-    }
-  }
-}
-</script>
-<style>
-  html { scroll-behavior: smooth; }
-  body { background-color: #050505; color: #fff; font-family: 'Inter', sans-serif; }
-  
-  /* Сетка на фоне */
-  .bg-grid {
-    background-size: 40px 40px;
-    background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-  }
-
-  /* Неоновое свечение */
-  .neon-glow {
-    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2), inset 0 0 10px rgba(0, 229, 255, 0.1);
-  }
-  .neon-text {
-    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-  }
-
-  /* Стекло */
-  .glass {
-    background: rgba(18, 18, 22, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  /* Анимация появления */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  }
-  .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Свечение при наведении на карточку */
-  .hover-card {
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .hover-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(0, 229, 255, 0.4);
-    box-shadow: 0 10px 30px -10px rgba(0, 229, 255, 0.2);
-  }
-
-  /* Кастомный скроллбар */
-  ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: #050505; }
-  ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: #00e5ff; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CYBERPC — игровые компьютеры и комплектующие</title>
+  <meta name="description" content="Игровые и рабочие станции, комплектующие топ-уровня. Собираем, 24 часа тестируем, настраиваем и даём гарантию 3 года.">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="CYBERPC — игровые компьютеры и комплектующие">
+  <meta property="og:description" content="Собираем ПК, которые не просто работают — они доминируют.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Inter и Manrope содержат кириллицу (в Space Grotesk из прежней версии её нет) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/boot.js"></script>
 </head>
-<body class="antialiased overflow-x-hidden">
+<body>
+  <a class="skip-link" href="#main">К содержимому</a>
 
-<!-- ==================== NAV ==================== -->
-<nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
-  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
-    <a href="#" class="font-display text-2xl font-bold tracking-tighter flex items-center gap-2">
-      <div class="w-3 h-3 bg-neon rounded-sm neon-glow"></div>
-      CYBER<span class="text-neon">PC</span>
-    </a>
-    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-      <a href="#catalog" class="hover:text-white transition-colors">Каталог</a>
-      <a href="#builds" class="hover:text-white transition-colors">Сборки</a>
-      <a href="#service" class="hover:text-white transition-colors">Сервис</a>
-      <a href="#contact" class="hover:text-white transition-colors">Контакты</a>
-    </div>
-    <div class="flex items-center gap-4">
-      <a href="#contact" class="hidden md:block text-sm font-medium border border-neon/30 text-neon px-5 py-2 rounded hover:bg-neon hover:text-dark transition-all duration-300">
-        Связаться
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="logo" href="/" aria-label="CYBERPC — на главную">
+        <span class="logo__mark" aria-hidden="true"></span><span>CYBER<span class="neon">PC</span></span>
       </a>
+      <nav class="nav" aria-label="Основное меню">
+        <a href="#catalog">Каталог</a>
+        <a href="#builds">Сборки</a>
+        <a href="#service">Сервис</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+      <a class="btn btn--outline btn--sm site-header__cta" href="#contact">Связаться</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  </div>
-</nav>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Мобильное меню" hidden>
+      <a href="#catalog">Каталог</a>
+      <a href="#builds">Сборки</a>
+      <a href="#service">Сервис</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+  </header>
 
-<!-- ==================== HERO ==================== -->
-<section class="relative min-h-screen flex items-center pt-24 overflow-hidden">
-  <div class="bg-grid"></div>
-  
-  <!-- Свечение за текстом -->
-  <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-purple/20 rounded-full blur-[120px] pointer-events-none"></div>
-  <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-neon/10 rounded-full blur-[120px] pointer-events-none"></div>
+  <main id="main">
+    <!-- ======== HERO ======== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="bg-grid" aria-hidden="true"></div>
+      <div class="glow glow--violet" aria-hidden="true"></div>
+      <div class="glow glow--neon" aria-hidden="true"></div>
 
-  <div class="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-16 items-center w-full relative z-10">
-    <div class="reveal">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neon/30 bg-neon/5 text-neon text-xs font-semibold tracking-wider uppercase mb-8">
-        <span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
-        Новое поколение
-      </div>
-      <h1 class="font-display text-5xl md:text-7xl leading-[1.05] tracking-tight mb-6">
-        Мощь,<br>
-        которая<br>
-        <span class="text-neon neon-text">включается.</span>
-      </h1>
-      <p class="text-gray-400 text-lg max-w-lg mb-10 leading-relaxed font-light">
-        Игровые и рабочие станции, комплектующие топ-уровня. Собираем ПК, которые не просто работают — они доминируют.
-      </p>
-      <div class="flex flex-wrap gap-4">
-        <a href="#catalog" class="bg-neon text-dark px-8 py-3.5 rounded font-semibold hover:bg-white transition-colors duration-300 neon-glow">
-          Смотреть каталог
-        </a>
-        <a href="#builds" class="glass px-8 py-3.5 rounded font-semibold hover:border-neon/50 transition-colors duration-300">
-          Готовые сборки
-        </a>
-      </div>
-    </div>
-
-    <div class="reveal relative hidden lg:block">
-      <!-- Фото системного блока -->
-      <div class="relative rounded-2xl overflow-hidden border border-white/10 glass p-2">
-        <img
-          src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800&q=80"
-          alt="Игровой ПК"
-          class="w-full h-auto rounded-xl object-cover"
-        >
-        <div class="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/10 pointer-events-none"></div>
-      </div>
-      
-      <!-- Плавающая плашка -->
-      <div class="absolute -bottom-6 -left-6 glass p-4 rounded-xl border border-white/10 flex items-center gap-4">
-        <div class="w-12 h-12 bg-neon/10 rounded-lg flex items-center justify-center">
-          <svg class="w-6 h-6 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+      <div class="container hero__inner">
+        <div class="reveal">
+          <p class="pill"><span class="pill__dot" aria-hidden="true"></span>Новое поколение</p>
+          <h1 id="hero-title">Мощь,<br>которая<br><span class="neon neon--glow">включается.</span></h1>
+          <p class="lead">Игровые и рабочие станции, комплектующие топ-уровня. Собираем ПК, которые не просто работают — они доминируют.</p>
+          <div class="actions">
+            <a class="btn btn--primary" href="#catalog">Смотреть каталог</a>
+            <a class="btn btn--glass" href="#builds">Готовые сборки</a>
+          </div>
         </div>
-        <div>
-          <div class="font-display font-bold text-xl">RTX 40</div>
-          <div class="text-xs text-gray-400">Максимальный FPS</div>
+
+        <div class="hero__visual reveal">
+          <div class="frame glass">
+            <img src="/img/hero.svg" width="800" height="600" alt="Игровой компьютер с подсветкой в стеклянном корпусе" fetchpriority="high">
+          </div>
+          <div class="floating glass">
+            <span class="floating__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </span>
+            <span>
+              <strong class="floating__title">RTX 40</strong>
+              <span class="floating__text">Максимальный FPS</span>
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ==================== CATALOG (Категории) ==================== -->
-<section id="catalog" class="py-32 relative">
-  <div class="max-w-7xl mx-auto px-6 lg:px-12">
-    <div class="reveal mb-16">
-      <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Комплектующие</h2>
-      <p class="text-gray-400">Только проверенное железо от мировых производителей.</p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Карточка 1 -->
-      <div class="reveal hover-card glass rounded-2xl p-6 cursor-pointer">
-        <div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center mb-6">
-          <svg class="w-6 h-6 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+    <!-- ======== КОМПЛЕКТУЮЩИЕ ======== -->
+    <section class="section" id="catalog" aria-labelledby="catalog-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <h2 id="catalog-title">Комплектующие</h2>
+          <p class="muted">Только проверенное железо от мировых производителей.</p>
         </div>
-        <h3 class="font-display font-bold text-xl mb-2">Видеокарты</h3>
-        <p class="text-sm text-gray-400 mb-4">NVIDIA RTX 40 Series / AMD Radeon RX</p>
-        <span class="text-neon text-sm font-semibold">Перейти →</span>
-      </div>
-
-      <!-- Карточка 2 -->
-      <div class="reveal hover-card glass rounded-2xl p-6 cursor-pointer">
-        <div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center mb-6">
-          <svg class="w-6 h-6 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        <div class="grid grid--4" id="categories" aria-busy="true">
+          <div class="skeleton" aria-hidden="true"></div>
+          <div class="skeleton" aria-hidden="true"></div>
+          <div class="skeleton" aria-hidden="true"></div>
+          <div class="skeleton" aria-hidden="true"></div>
         </div>
-        <h3 class="font-display font-bold text-xl mb-2">Процессоры</h3>
-        <p class="text-sm text-gray-400 mb-4">Intel Core i9 / AMD Ryzen 9</p>
-        <span class="text-neon text-sm font-semibold">Перейти →</span>
+        <noscript><p class="muted">Для работы каталога включите JavaScript.</p></noscript>
       </div>
+    </section>
 
-      <!-- Карточка 3 -->
-      <div class="reveal hover-card glass rounded-2xl p-6 cursor-pointer">
-        <div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center mb-6">
-          <svg class="w-6 h-6 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4z"></path></svg>
+    <!-- ======== СБОРКИ ======== -->
+    <section class="section section--surface" id="builds" aria-labelledby="builds-title">
+      <div class="container">
+        <div class="section__head section__head--row reveal">
+          <div>
+            <h2 id="builds-title">Готовые сборки</h2>
+            <p class="muted">Протестированы в стресс-режиме. Гарантия стабильности в любой игре или задаче.</p>
+          </div>
+          <a class="link-neon" href="#contact" data-interest="Индивидуальная сборка">Заказать кастом →</a>
         </div>
-        <h3 class="font-display font-bold text-xl mb-2">Оперативная память</h3>
-        <p class="text-sm text-gray-400 mb-4">DDR5 до 8000 МГц / RGB подсветка</p>
-        <span class="text-neon text-sm font-semibold">Перейти →</span>
-      </div>
-
-      <!-- Карточка 4 -->
-      <div class="reveal hover-card glass rounded-2xl p-6 cursor-pointer">
-        <div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center mb-6">
-          <svg class="w-6 h-6 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        <div class="grid grid--3" id="builds-grid" aria-busy="true">
+          <div class="skeleton skeleton--tall" aria-hidden="true"></div>
+          <div class="skeleton skeleton--tall" aria-hidden="true"></div>
+          <div class="skeleton skeleton--tall" aria-hidden="true"></div>
         </div>
-        <h3 class="font-display font-bold text-xl mb-2">Накопители</h3>
-        <p class="text-sm text-gray-400 mb-4">NVMe SSD PCIe 5.0 / до 14 000 МБ/с</p>
-        <span class="text-neon text-sm font-semibold">Перейти →</span>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ==================== BUILDS (Сборки) ==================== -->
-<section id="builds" class="py-32 relative bg-surface border-y border-white/5">
-  <div class="max-w-7xl mx-auto px-6 lg:px-12">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-      <div class="reveal">
-        <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Готовые сборки</h2>
-        <p class="text-gray-400 max-w-xl">Протестированы в стресс-режиме. Гарантия стабильности в любой игре или задаче.</p>
-      </div>
-      <a href="#contact" class="text-neon font-medium hover:text-white transition-colors">Заказать кастом →</a>
-    </div>
+    <!-- ======== СЕРВИС ======== -->
+    <section class="section" id="service" aria-labelledby="service-title">
+      <div class="container split">
+        <div class="reveal">
+          <h2 id="service-title" class="h2--lg">Не просто продаем.<br><span class="neon">Собираем, тестируем, настраиваем.</span></h2>
+          <p class="muted lead--sm">Любой ПК из каталога проходит 24-часовой стресс-тест. Мы устанавливаем ОС, драйверы, подбираем оптимальные настройки охлаждения и подсветки, чтобы вы получили готовое решение.</p>
+          <dl class="stats">
+            <div class="stat"><dt class="stat__label">Гарантия на сборку</dt><dd class="stat__value">3 года</dd></div>
+            <div class="stat"><dt class="stat__label">Рассрочка на 12 месяцев</dt><dd class="stat__value">0%</dd></div>
+          </dl>
+        </div>
 
-    <div class="grid md:grid-cols-3 gap-8">
-      <!-- Сборка 1 -->
-      <div class="reveal glass rounded-2xl p-8 hover-card border-t-2 border-t-neon">
-        <div class="text-xs font-bold tracking-widest text-neon uppercase mb-2">Старт</div>
-        <h3 class="font-display text-2xl font-bold mb-6">NOVA Series</h3>
-        <ul class="space-y-3 mb-8 text-sm text-gray-400">
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-neon rounded-full"></span> CPU: Intel Core i5 13400F</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-neon rounded-full"></span> GPU: RTX 4060 8GB</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-neon rounded-full"></span> RAM: 16GB DDR5</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-neon rounded-full"></span> SSD: 1TB NVMe</li>
+        <ul class="features reveal">
+          <li class="feature glass feature--neon">
+            <span class="feature__check" aria-hidden="true">✓</span>
+            <div><h3>Кабель-менеджмент</h3><p class="muted">Идеальная укладка проводов для лучшего продува и эстетики.</p></div>
+          </li>
+          <li class="feature glass feature--violet">
+            <span class="feature__check" aria-hidden="true">✓</span>
+            <div><h3>Кастомный водоблок</h3><p class="muted">Возможность установки СЖО под заказ для экстремального разгона.</p></div>
+          </li>
+          <li class="feature glass feature--white">
+            <span class="feature__check" aria-hidden="true">✓</span>
+            <div><h3>Разгон и андервольтинг</h3><p class="muted">Настраиваем оптимальный баланс производительности и температур.</p></div>
+          </li>
         </ul>
-        <div class="flex items-end justify-between border-t border-white/10 pt-6">
-          <div class="font-display text-2xl font-bold">от 85 000 ₽</div>
-          <button class="bg-white/5 hover:bg-neon hover:text-dark px-4 py-2 rounded text-sm transition-colors">Выбрать</button>
-        </div>
       </div>
+    </section>
 
-      <!-- Сборка 2 -->
-      <div class="reveal glass rounded-2xl p-8 hover-card border-t-2 border-t-purple relative">
-        <div class="absolute top-0 right-8 transform -translate-y-1/2 bg-purple text-white text-xs font-bold px-3 py-1 rounded-full">ХИТ</div>
-        <div class="text-xs font-bold tracking-widest text-purple uppercase mb-2">Оптимум</div>
-        <h3 class="font-display text-2xl font-bold mb-6">TITAN Series</h3>
-        <ul class="space-y-3 mb-8 text-sm text-gray-400">
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-purple rounded-full"></span> CPU: Intel Core i7 14700K</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-purple rounded-full"></span> GPU: RTX 4070 Ti Super</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-purple rounded-full"></span> RAM: 32GB DDR5 6000</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-purple rounded-full"></span> SSD: 2TB NVMe Gen4</li>
-        </ul>
-        <div class="flex items-end justify-between border-t border-white/10 pt-6">
-          <div class="font-display text-2xl font-bold">от 165 000 ₽</div>
-          <button class="bg-white/5 hover:bg-purple hover:text-white px-4 py-2 rounded text-sm transition-colors">Выбрать</button>
-        </div>
-      </div>
+    <!-- ======== КОНТАКТЫ ======== -->
+    <section class="section section--contact" id="contact" aria-labelledby="contact-title">
+      <div class="bg-grid" aria-hidden="true"></div>
+      <div class="container container--narrow">
+        <div class="contact glass reveal">
+          <h2 id="contact-title">Готовы к апгрейду?</h2>
+          <p class="muted contact__lead">Оставьте заявку, и мы подберем конфигурацию под ваш бюджет и задачи. Консультация бесплатная.</p>
 
-      <!-- Сборка 3 -->
-      <div class="reveal glass rounded-2xl p-8 hover-card">
-        <div class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Максимум</div>
-        <h3 class="font-display text-2xl font-bold mb-6">APEX Series</h3>
-        <ul class="space-y-3 mb-8 text-sm text-gray-400">
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-white rounded-full"></span> CPU: Intel Core i9 14900K</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-white rounded-full"></span> GPU: RTX 4090 24GB</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-white rounded-full"></span> RAM: 64GB DDR5 7200</li>
-          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-white rounded-full"></span> SSD: 4TB NVMe Gen5</li>
-        </ul>
-        <div class="flex items-end justify-between border-t border-white/10 pt-6">
-          <div class="font-display text-2xl font-bold">от 350 000 ₽</div>
-          <button class="bg-white/5 hover:bg-white hover:text-dark px-4 py-2 rounded text-sm transition-colors">Выбрать</button>
+          <form id="leadForm" class="form" method="post" action="/api/leads" novalidate>
+            <div class="chip" id="interestChip" hidden>
+              <span>Вас интересует: <strong id="interestText"></strong></span>
+              <button type="button" class="chip__close" id="interestClear" aria-label="Убрать выбор">✕</button>
+            </div>
+            <input type="hidden" name="interest" id="interest">
+
+            <div class="field">
+              <label class="sr-only" for="f-name">Ваше имя</label>
+              <input id="f-name" name="name" type="text" required minlength="2" maxlength="60" autocomplete="name" placeholder="Ваше имя">
+              <p class="field__error" data-error-for="name" role="alert"></p>
+            </div>
+            <div class="field">
+              <label class="sr-only" for="f-contact">Телефон или Telegram</label>
+              <input id="f-contact" name="contact" type="text" required maxlength="40" autocomplete="tel" placeholder="Телефон или Telegram (@username)">
+              <p class="field__error" data-error-for="contact" role="alert"></p>
+            </div>
+            <div class="field">
+              <label class="sr-only" for="f-message">Бюджет и задачи</label>
+              <textarea id="f-message" name="message" rows="3" maxlength="1000" placeholder="Бюджет и задачи (например, 150к, игры в 2K)"></textarea>
+              <p class="field__error" data-error-for="message" role="alert"></p>
+            </div>
+
+            <!-- Ловушка для ботов: людям не видна -->
+            <div class="hp" aria-hidden="true">
+              <label>Сайт <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            </div>
+
+            <button class="btn btn--primary btn--block" type="submit" id="submitBtn">Подобрать ПК</button>
+            <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+            <p class="form__hint">Отправляя заявку, вы соглашаетесь на обработку указанных контактов для связи с вами.</p>
+          </form>
         </div>
       </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <a class="logo logo--sm" href="/" aria-label="CYBERPC — на главную"><span class="logo__mark" aria-hidden="true"></span>CYBERPC</a>
+      <p>© <span id="year">2026</span>. Все права защищены.</p>
+      <ul class="socials" id="socials">
+        <li hidden><a data-social="telegram" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+        <li hidden><a data-social="vk" target="_blank" rel="noopener noreferrer">VK</a></li>
+        <li hidden><a data-social="youtube" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      </ul>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ==================== SERVICE (Услуги / Преимущества) ==================== -->
-<section id="service" class="py-32">
-  <div class="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-20 items-center">
-    <div class="reveal">
-      <h2 class="font-display text-4xl md:text-5xl font-bold mb-8 leading-tight">
-        Не просто продаем.<br>
-        <span class="text-neon">Собираем, тестируем, настраиваем.</span>
-      </h2>
-      <p class="text-gray-400 leading-relaxed mb-8">
-        Любой ПК из каталога проходит 24-часовой стресс-тест. Мы устанавливаем ОС, драйверы, подбираем оптимальные настройки охлаждения и подсветки, чтобы вы получили готовое решение.
-      </p>
-      
-      <div class="grid grid-cols-2 gap-6">
-        <div class="border-l-2 border-neon pl-4">
-          <div class="font-display text-3xl font-bold text-white mb-1">3 года</div>
-          <div class="text-sm text-gray-400">Гарантия на сборку</div>
-        </div>
-        <div class="border-l-2 border-neon pl-4">
-          <div class="font-display text-3xl font-bold text-white mb-1">0%</div>
-          <div class="text-sm text-gray-400">Рассрочка на 12 месяцев</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="reveal grid gap-4">
-      <div class="glass p-6 rounded-xl border-l-4 border-l-neon flex gap-4">
-        <div class="text-neon mt-1">✓</div>
-        <div>
-          <h4 class="font-bold mb-1">Кабель-менеджмент</h4>
-          <p class="text-sm text-gray-400">Идеальная укладка проводов для лучшего продува и эстетики.</p>
-        </div>
-      </div>
-      <div class="glass p-6 rounded-xl border-l-4 border-l-purple flex gap-4">
-        <div class="text-purple mt-1">✓</div>
-        <div>
-          <h4 class="font-bold mb-1">Кастомный водоблок</h4>
-          <p class="text-sm text-gray-400">Возможность установки СЖО под заказ для экстремального разгона.</p>
-        </div>
-      </div>
-      <div class="glass p-6 rounded-xl border-l-4 border-l-white flex gap-4">
-        <div class="text-white mt-1">✓</div>
-        <div>
-          <h4 class="font-bold mb-1">Разгон и андервольтинг</h4>
-          <p class="text-sm text-gray-400">Настраиваем оптимальный баланс производительности и температур.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== CONTACT ==================== -->
-<section id="contact" class="py-32 relative border-t border-white/5">
-  <div class="bg-grid"></div>
-  <div class="max-w-4xl mx-auto px-6 relative z-10">
-    <div class="reveal glass rounded-3xl p-8 md:p-12 border border-white/10 text-center">
-      <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Готовы к апгрейду?</h2>
-      <p class="text-gray-400 mb-10 max-w-lg mx-auto">Оставьте заявку, и мы подберем конфигурацию под ваш бюджет и задачи. Консультация бесплатная.</p>
-      
-      <form id="leadForm" class="max-w-md mx-auto space-y-4 text-left">
-        <div>
-          <input
-            type="text" name="name" required
-            class="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-neon focus:outline-none transition-colors"
-            placeholder="Ваше имя"
-          >
-        </div>
-        <div>
-          <input
-            type="tel" name="phone" required
-            class="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-neon focus:outline-none transition-colors"
-            placeholder="Телефон или Telegram"
-          >
-        </div>
-        <div>
-          <textarea
-            name="message" rows="3"
-            class="w-full bg-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-neon focus:outline-none transition-colors resize-none"
-            placeholder="Бюджет и задачи (например, 150к, игры в 2K)"
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          class="w-full bg-neon text-dark font-bold py-4 rounded-lg hover:bg-white transition-colors duration-300 neon-glow"
-        >
-          Подобрать ПК
-        </button>
-        <p id="formStatus" class="text-neon text-sm font-medium text-center hidden"></p>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== FOOTER ==================== -->
-<footer class="border-t border-white/5 py-12 bg-dark">
-  <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-500">
-    <div class="font-display text-xl font-bold text-white flex items-center gap-2">
-      <div class="w-2 h-2 bg-neon rounded-sm"></div>
-      CYBERPC
-    </div>
-    <div>© 2026. Все права защищены.</div>
-    <div class="flex gap-6">
-      <a href="#" class="hover:text-neon transition-colors">Telegram</a>
-      <a href="#" class="hover:text-neon transition-colors">VK</a>
-      <a href="#" class="hover:text-neon transition-colors">YouTube</a>
-    </div>
-  </div>
-</footer>
-
-<!-- ==================== JS ==================== -->
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  document.getElementById('leadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const status = document.getElementById('formStatus');
-    const btn = this.querySelector('button[type="submit"]');
-
-    btn.textContent = 'Заявка принята ✓';
-    btn.classList.add('bg-white', 'text-dark');
-    btn.classList.remove('bg-neon');
-    status.textContent = 'Мы свяжемся с вами в ближайшее время.';
-    status.classList.remove('hidden');
-
-    setTimeout(() => {
-      this.reset();
-      btn.textContent = 'Подобрать ПК';
-      btn.classList.remove('bg-white', 'text-dark');
-      btn.classList.add('bg-neon');
-      status.classList.add('hidden');
-    }, 4000);
-  });
-</script>
-
+  <script src="/app.js" defer></script>
 </body>
 </html>
